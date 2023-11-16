@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 
-from .models import Target, Observatory
+from .models import *
 
 class IndexView(generic.ListView):
     template_name="tom/index.html"
@@ -17,3 +17,9 @@ class TargetView(generic.DetailView):
 class ObservatoryView(generic.DetailView):
     model = Observatory
     template_name = "tom/observatory.html"
+
+def ObservationView(request, pk):
+    observation = get_object_or_404(Observation, pk=pk)
+    observers = observation.observer_get.all()
+    context = {"observation": observation, "observers": observers}
+    return render(request, "tom/observation.html", context)

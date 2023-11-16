@@ -1,0 +1,14 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'tom/style.css' %}">
+
+<title>{{ observation.target }} @ {{ observation.observatory }} on {{ observation.utc_date }}</title>
+Observation {{ observation.id }}<br>
+
+{% if observers %}
+    <ul>
+        {% for observer in observers %}
+            <li>{{ observer.first_name }} {{ observer.last_name }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
