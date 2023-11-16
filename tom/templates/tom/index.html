@@ -1,0 +1,14 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'tom/style.css' %}">
+
+{% if target_list %}
+Available Targets:
+    <ul>
+    {% for target in target_list %}
+        <li><a href="{% url 'tom:target' target.id %}">{{ target.local_id }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No targets are available.</p>
+{% endif %}
