@@ -2,6 +2,9 @@ from django.contrib import admin
 
 from .models import *
 
+class TargetInline(admin.TabularInline):
+    model = Target
+    extra = 0
 
 class ScienceTargetInline(admin.TabularInline):
     model = ScienceTarget
@@ -50,12 +53,16 @@ class ScienceTargetAdmin(admin.ModelAdmin):
     ]
     inlines = [CalibrationTargetInline, ScienceResultInline]
     list_filter = ["source"]
-    extra = 0
 
 
 admin.site.register(ScienceTarget, ScienceTargetAdmin)
 admin.site.register(CalibrationTarget)
 
+class TargetListAdmin(admin.ModelAdmin):
+    # inlines = [TargetInline]
+    pass
+
+admin.site.register(TargetList, TargetListAdmin)
 
 class ObservatoryAdmin(admin.ModelAdmin):
     inlines = [ObservationInline]

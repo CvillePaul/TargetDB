@@ -37,6 +37,15 @@ class ScienceTarget(Target):
     calibrations = models.ManyToManyField(CalibrationTarget)
 
 
+class TargetList(models.Model):
+    name = models.CharField(max_length=200)
+    created = models.DateTimeField(auto_now_add=True)
+    targets = models.ManyToManyField(Target)
+
+    def __str__(self):
+        return f"{self.name} (created {self.created:%Y-%m-%d %H:%M:%S} UTC)"
+
+
 class Observatory(models.Model):
     nickname = models.CharField(max_length=15)
     name = models.CharField(max_length=100)
