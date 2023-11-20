@@ -1,0 +1,13 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'tom/style.css' %}">
+
+<h1>{% block title %}{{ person }} {% endblock %}</h1>
+{% block content %}
+<table>
+    {% for field in person.items %}
+        <tr>
+            <td>{{ field }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
