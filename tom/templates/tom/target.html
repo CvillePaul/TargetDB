@@ -1,4 +1,55 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'tom/style.css' %}">
+
 <title>{{ target.local_id }}</title>
+
+<body style="background-color:powderblue;">
 <br>
-Name = {{ target.local_id }} <br>
-TIC ID = {{ target.tic_id }}
+<h1>{{ target.local_id }}</h1><br>
+TIC ID = {{ target.tic_id }} <br>
+GAIA ID = {{ target.gaia_id }} <br>
+Magnitude = {{ target.magnitude }} <br>
+
+{% if observations %}
+    <h2>Observations ({{ observations|length }})</h2>
+    <table>
+        <tr><th>ID</th><th>Purpose</th><th>Site</th><th>Date</th></tr>
+        {% for observation in observations %}
+            <tr>
+                <td><a href="{% url 'tom:observation' observation.id %}">{{ observation.id }}</a></td>
+                <td>{{ observation.purpose }}</td>
+                <td>{{ observation.observatory }}</td>
+                <td>{{ observation.utc_date|date:"Y-m-d" }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+{% if specklerawdata %}
+    <h2>Speckle Raw Data ({{ specklerawdata|length }})</h2>
+    <table>
+        <tr><th>URI</th><th>Gain</th><th>Exposure time</th><th>Num Sequences</th></tr>
+        {% for rawdatum in specklerawdata %}
+            <tr>
+                <td>{{ rawdatum.uri }}</td>
+                <td>{{ rawdatum.gain }}</td>
+                <td>{{ rawdatum.exposure_time_ms }}</td>
+                <td>{{ rawdatum.num_sequences }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+{% if scienceresults %}
+    <h2>Science Results ({{ scienceresults|length }})</h2>
+    <table>
+        <tr><th>Type</th><th>URI</th></tr>
+        {% for scienceresult in scienceresults %}
+            <tr>
+                <td>{{ scienceresult.type }}</td>
+                <td>{{ scienceresult.uri }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+</body>

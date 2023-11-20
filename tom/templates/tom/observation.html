@@ -1,13 +1,17 @@
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'tom/style.css' %}">
 
 <title>{{ observation.target }} @ {{ observation.observatory }} on {{ observation.utc_date }}</title>
-Observation {{ observation.id }}<br>
+Observation ID = {{ observation.id }}<br>
+Target = {{ observation.target }}<br>
+Observatory = {{ observation.observatory }}<br>
+UTC Date = {{ observation.utc_date }}<br>
 
-{% if observers %}
+{% if observation.observers.all %}
+    <br><br>
+    Observers ({{ observation.observers.all|length }})
     <ul>
-        {% for observer in observers %}
+        {% for observer in observation.observers.all %}
             <li>{{ observer.first_name }} {{ observer.last_name }}</li>
         {% endfor %}
     </ul>

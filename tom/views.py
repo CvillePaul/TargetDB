@@ -1,6 +1,4 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
 from django.views import generic
 
 from .models import *
@@ -10,16 +8,25 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         return Target.objects.all()[:5]
 
-class TargetView(generic.DetailView):
-    model = Target
-    template_name = "tom/target.html"
+def TargetView(request, pk):
+    target = get_object_or_404(Target, pk=pk)
+    observations = target.observation_set.all()
+    scienceresults = target.scienceresult_set.all()
+    specklerawdata = SpeckleRawData.objects.filter(observation__target__local_id=target.local_id)
+    context = {"target": target, "observations": observations, "specklerawdata": specklerawdata, "scienceresults": scienceresults}
+    return render(request, "tom/target.html", context)
 
 class ObservatoryView(generic.DetailView):
     model = Observatory
     template_name = "tom/observatory.html"
 
-def ObservationView(request, pk):
-    observation = get_object_or_404(Observation, pk=pk)
-    observers = observation.observer_get.all()
-    context = {"observation": observation, "observers": observers}
-    return render(request, "tom/observation.html", context)
+class ObservationView(generic.DetailView):
+    model = Observation
+    template_name = "tom/observation.html"
+
+class PersonView(generic.DetailView):
+    model = Person
+    template_name = "tom/person.html"
+
+# def StatusView(request):
+#     targets =
