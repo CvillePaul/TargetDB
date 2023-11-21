@@ -52,4 +52,18 @@ Magnitude = {{ target.magnitude }} <br>
         {% endfor %}
     </table>
 {% endif %}
+
+{% if calibration_targets %}
+    <h2>Calibration Targets ({{ calibration_targets|length }})</h2>
+    <table>
+        <tr><th>Local ID</th></tr>
+        {% for calibration_target in calibration_targets %}
+            <tr>
+                <td>{{ calibration_target }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+
 </body>

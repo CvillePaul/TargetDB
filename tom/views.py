@@ -14,19 +14,19 @@ class IndexView(generic.ListView):
 def TargetView(request, pk):
     target = get_object_or_404(ScienceTarget, pk=pk)
     observations = target.observation_set.all()
-    calibration_targets = target.calibrations_set.all()
     scienceresults = target.scienceresult_set.all()
     specklerawdata = SpeckleRawData.objects.filter(
         observation__target__local_id=target.local_id
     )
-    calibration_targets = target.calibrations_set.all()
     context = {
         "target": target,
         "observations": observations,
-        "calibration_targets": calibration_targets,
         "specklerawdata": specklerawdata,
         "scienceresults": scienceresults,
     }
+    calibration_targets = target.calibrations
+    if calibration_targets is not None:
+        context["calibration_targets"] = calibration_targets.all()
     return render(request, "tom/target.html", context)
 
 
