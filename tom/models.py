@@ -30,7 +30,7 @@ class Target(models.Model):
 
 
 class CalibrationTarget(Target):
-    type = models.CharField(max_length=50, default="")
+    pass
 
 
 class ScienceTarget(Target):
