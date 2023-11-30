@@ -19,7 +19,7 @@ class TargetImporter:
         ("Target Type", f"How the target should be used.  Allowed choices: {", ".join(target_types)}"),
         ]
 
-    def process_target_file(file: string, require_all: bool) -> int:
+    def process_target_file(file: str, require_all: bool) -> int:
         targets = QTable.read(file, format="ascii.ecsv")
         #TODO: verify all required columns are present
 
