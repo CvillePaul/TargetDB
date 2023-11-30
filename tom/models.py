@@ -1,6 +1,7 @@
 from django.db import models
 
 
+
 class Person(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -11,13 +12,16 @@ class Person(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
+class TargetIdType(models.Model):
+    id_type = models.CharField(max_length=100, unique=True)
+    comment = models.CharField(max_length=200, blank=True)
+
+
 class Target(models.Model):
     local_id = models.CharField(max_length=100, unique=True)
     source = models.CharField(
-        max_length=100, help_text="How target was identified/discovered", default=""
+        max_length=100, help_text="How target was identified/discovered", blank=True
     )
-    tic_id = models.CharField(max_length=30, default="")
-    gaia_id = models.CharField(max_length=30, default="")
     ra = models.FloatField(verbose_name="RA (deg)")
     dec = models.FloatField(verbose_name="Dec (deg)")
     pmra = models.FloatField(verbose_name="PM RA (mas/yr)", default=0)
@@ -29,8 +33,14 @@ class Target(models.Model):
         return self.local_id
 
 
+class TargetIdentifier(models.Model):
+    target = models.ForeignKey(Target, on_delete=models.CASCADE)
+    id_type = models.ForeignKey(TargetIdType, on_delete=models.CASCADE)
+    identifier = models.CharField(max_length=100)
+
+
 class CalibrationTarget(Target):
-    pass
+    ...
 
 
 class ScienceTarget(Target):
@@ -56,13 +66,18 @@ class Observatory(models.Model):
 
 
 class ObservationPurpose(models.Model):
-    purpose = models.CharField(max_length=30)
+    purpose = models.CharField(max_length=100)
 
     def __str__(self):
         return self.purpose
 
 
+class ObservingProgram(models.Model):
+    name = models.CharField(max_length=200)
+
+
 class Observation(models.Model):
+    observing_program = models.ForeignKey(ObservingProgram, on_delete=models.CASCADE)
     target = models.ForeignKey(Target, on_delete=models.CASCADE)
     observatory = models.ForeignKey(Observatory, on_delete=models.CASCADE)
     utc_date = models.DateField()

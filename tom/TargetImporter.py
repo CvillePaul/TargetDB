@@ -19,8 +19,8 @@ class TargetImporter:
         ("Target Type", f"How the target should be used.  Allowed choices: {", ".join(target_types)}"),
         ]
 
-    def process_target_file(file, require_all):
-        targets = QTable.read(file)
+    def process_target_file(file: string, require_all: bool) -> int:
+        targets = QTable.read(file, format="ascii.ecsv")
         #TODO: verify all required columns are present
 
         #TODO: split table by ID Type, process each group separately
@@ -29,24 +29,22 @@ class TargetImporter:
         tic_targets = TargetImporter.import_targets_by_tic(targets, require_all)
 
         for row in tic_targets:
-            t = Target(
-                local_id = row[""],
-                source = row[""],
-                tic_id = row[""],
-                gaia_id = row[""],
-                ra = row[""],
-                dec = row[""],
-                pmra = row[""],
-                pmdec =  row[""],
-                distance = row[""],
-                magnitude = row[""],
+            t = ScienceTarget(
+                local_id = "TIC " + row["TIC ID"],
+                source = row["Source"],
+                ra = row["RA"].value,
+                dec = row["Dec"].value,
+                pmra = row["PMRA"].value,
+                pmdec =  row["PMDEC"].value,
+                distance = row["Distance"].value,
+                magnitude = row["phot_g_mean_mag"].value,
             )
             t.save()
 
-        return ""
+        return len(tic_targets)
 
 
-    def import_targets_by_tic(targets_table, require_all: bool=False) -> set[str]:
+    def import_targets_by_tic(targets_table: QTable, require_all: bool=False) -> QTable:
         # retrieve all objects by TIC ID from the TIC catalog, which (among other things) gives us the GAIA ID
         # TIC fields: https://mast.stsci.edu/api/v0/_t_i_cfields.html
         tic_table = Catalogs.query_criteria(catalog="Tic", ID=targets_table["TIC ID"])
@@ -83,7 +81,6 @@ class TargetImporter:
 
         # make a SkyCoord object for the RA/DEC of all the objects.
         # the SkyCoord object handles proper motion nicely, so PMRA and PMDEC are in there too
-        # manually checking, all 101 objects are at epoch J2015.5, so this can be hard coded
         gaia_coords = SkyCoord(
             targets_table["RA"],
             targets_table["DEC"],

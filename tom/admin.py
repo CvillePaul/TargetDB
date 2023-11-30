@@ -41,7 +41,7 @@ admin.site.register(Person)
 
 class ScienceTargetAdmin(admin.ModelAdmin):
     fieldsets = [
-        ("IDs", {"fields": ["local_id", "tic_id", "gaia_id"]}),
+        ("IDs", {"fields": ["local_id"]}),
         (None, {"fields": ["source", "magnitude"]}),
         (
             "Coordinates (J2000)",
