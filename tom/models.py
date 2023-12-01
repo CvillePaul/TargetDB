@@ -48,16 +48,12 @@ class ScienceTarget(Target):
 
 
 class TargetList(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     created = models.DateTimeField(auto_now_add=True)
+    targets = models.ManyToManyField(Target)
 
     def __str__(self):
         return f"{self.name} (created {self.created:%Y-%m-%d %H:%M:%S} UTC)"
-
-
-class TargetListMember(models.Model):
-    target_list = models.ForeignKey(TargetList, on_delete=models.CASCADE)
-    target = models.ManyToManyField(Target)
 
 
 class Observatory(models.Model):
