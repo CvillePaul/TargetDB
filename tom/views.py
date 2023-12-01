@@ -13,21 +13,21 @@ class IndexView(generic.ListView):
     template_name = "tom/index.html"
 
     def get_queryset(self):
-        return Target.objects.all()[:5]
+        return Target.objects.all()
 
 
 def TargetView(request, pk):
     target = get_object_or_404(ScienceTarget, pk=pk)
-    observations = target.observation_set.all()
-    scienceresults = target.scienceresult_set.all()
-    specklerawdata = SpeckleRawData.objects.filter(
-        observation__target__local_id=target.local_id
-    )
+    # observations = target.observation_set.all()
+    # scienceresults = target.scienceresult_set.all()
+    # specklerawdata = SpeckleRawData.objects.filter(
+    #     observation__target__local_id=target.local_id
+    # )
     context = {
         "target": target,
-        "observations": observations,
-        "specklerawdata": specklerawdata,
-        "scienceresults": scienceresults,
+        # "observations": observations,
+        # "specklerawdata": specklerawdata,
+        # "scienceresults": scienceresults,
     }
     calibration_targets = target.calibrations
     if calibration_targets is not None:
@@ -58,11 +58,6 @@ def ImportTargetsView(request):
 class ObservatoryView(generic.DetailView):
     model = Observatory
     template_name = "tom/observatory.html"
-
-
-class ObservationView(generic.DetailView):
-    model = Observation
-    template_name = "tom/observation.html"
 
 
 class PersonView(generic.DetailView):

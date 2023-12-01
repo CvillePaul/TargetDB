@@ -16,8 +16,8 @@ class CalibrationTargetInline(admin.TabularInline):
     extra = 0
 
 
-class ObservationInline(admin.TabularInline):
-    model = Observation
+class ObservingSessionInline(admin.TabularInline):
+    model = ObservingSession
     extra = 0
 
 
@@ -65,7 +65,7 @@ class TargetListAdmin(admin.ModelAdmin):
 admin.site.register(TargetList, TargetListAdmin)
 
 class ObservatoryAdmin(admin.ModelAdmin):
-    inlines = [ObservationInline]
+    inlines = [ObservingSessionInline]
 
 
 admin.site.register(Observatory, ObservatoryAdmin)
@@ -73,16 +73,10 @@ admin.site.register(Observatory, ObservatoryAdmin)
 admin.site.register(ObservationPurpose)
 
 
-class ObservationAdmin(admin.ModelAdmin):
-    inlines = [SpeckleRawDataInline]
-
-
-admin.site.register(Observation, ObservationAdmin)
-
+admin.site.register(ObservingProgram)
+admin.site.register(ObservingSession)
 admin.site.register(SpeckleRawData)
 admin.site.register(SpectrumRawData)
-admin.site.register(PhotometryRawData)
-admin.site.register(OtherRawData)
 
 
 class ScienceResultAdmin(admin.ModelAdmin):

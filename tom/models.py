@@ -50,10 +50,14 @@ class ScienceTarget(Target):
 class TargetList(models.Model):
     name = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
-    targets = models.ManyToManyField(Target)
 
     def __str__(self):
         return f"{self.name} (created {self.created:%Y-%m-%d %H:%M:%S} UTC)"
+
+
+class TargetListMember(models.Model):
+    target_list = models.ForeignKey(TargetList, on_delete=models.CASCADE)
+    target = models.ManyToManyField(Target)
 
 
 class Observatory(models.Model):
@@ -76,9 +80,8 @@ class ObservingProgram(models.Model):
     name = models.CharField(max_length=200)
 
 
-class Observation(models.Model):
+class ObservingSession(models.Model):
     observing_program = models.ForeignKey(ObservingProgram, on_delete=models.CASCADE)
-    target = models.ForeignKey(Target, on_delete=models.CASCADE)
     observatory = models.ForeignKey(Observatory, on_delete=models.CASCADE)
     utc_date = models.DateField()
     equipment = models.CharField(max_length=100)
@@ -90,9 +93,9 @@ class Observation(models.Model):
 
 
 class RawData(models.Model):
-    observation = models.ForeignKey(Observation, on_delete=models.CASCADE)
+    target = models.ForeignKey(Target, on_delete=models.CASCADE)
+    observing_session = models.ForeignKey(ObservingSession, on_delete=models.CASCADE)
     uri = models.CharField(max_length=200)
-    size = models.IntegerField(default=0)
 
     def __str__(self):
         return self.uri
@@ -102,21 +105,25 @@ class RawData(models.Model):
 
 
 class SpeckleRawData(RawData):
-    gain = models.PositiveIntegerField()
-    exposure_time_ms = models.PositiveIntegerField()
-    num_sequences = models.PositiveIntegerField()
+    gain = models.PositiveIntegerField(default=0)
+    exposure_time_ms = models.PositiveIntegerField(default=0)
+    num_sequences = models.PositiveIntegerField(default=0)
 
 
 class SpectrumRawData(RawData):
-    pass
+    jd_btd = models.CharField(max_length=30, default="")
+    fiber = models.CharField(max_length=20, default="")
+    cross_disperser = models.CharField(max_length=100, default="")
+    arm = models.CharField(max_length=30, default="")
+    exposure_time = models.FloatField(default=0)
 
 
-class PhotometryRawData(RawData):
-    pass
+# class PhotometryRawData(RawData):
+#     pass
 
 
-class OtherRawData(RawData):
-    description = models.CharField(max_length=200)
+# class OtherRawData(RawData):
+#     description = models.CharField(max_length=200)
 
 
 class ScienceResult(models.Model):

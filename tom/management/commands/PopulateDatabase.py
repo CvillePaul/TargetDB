@@ -54,6 +54,8 @@ class Command(BaseCommand):
 
             ObservingProgram(name="QuadEB").save()
 
+            self.stdout.write(self.style.SUCCESS("Entities loaded")
+
         if options["targets"]:
             num_targets = TargetImporter.process_target_file(
                 "../../Files/Master Object List.ecsv", False

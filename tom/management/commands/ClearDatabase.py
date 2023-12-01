@@ -18,5 +18,8 @@ class Command(BaseCommand):
             if name == "RawData":
                 continue
             self.stdout.write(f"Deleting {name} rows...", ending="")
-            obj.objects.all().delete()
-            self.stdout.write(self.style.SUCCESS(f"Done."))
+            try:
+                obj.objects.all().delete()
+                self.stdout.write(self.style.SUCCESS(f"Done."))
+            except:
+                self.stdout.write(self.style.ERROR(f"Error"))
