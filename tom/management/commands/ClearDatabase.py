@@ -15,7 +15,7 @@ class Command(BaseCommand):
                     pass
             # can't figure out how to get the value of obj.Meta.abstract so these classes can be skipped
             # shitty workaround
-            if name == "RawData":
+            if name in ["RawData", "SkyCoord", "datetime"]:
                 continue
             self.stdout.write(f"Deleting {name} rows...", ending="")
             try:

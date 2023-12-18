@@ -1,5 +1,5 @@
-from django.core.management.base import BaseCommand, CommandError
-from tom.models import *
+from django.core.management.base import BaseCommand
+from tom import models
 
 class Command(BaseCommand):
     help = "Loads a bunch of standard items into a presumably empty database"
@@ -16,7 +16,7 @@ class Command(BaseCommand):
         errors = 0
         for local_id in local_ids:
             try:
-                targets.append(Target.objects.get(local_id=local_id.strip()))
+                targets.append(models.Target.objects.get(local_id=local_id.strip()))
             except:
                 self.stderr.write(self.style.ERROR(f"Cannot locate target {local_id}, {len(local_id)}"))
                 errors += 1
@@ -24,7 +24,7 @@ class Command(BaseCommand):
             self.stderr.write(self.style.ERROR(f"Quitting with {errors} errors"))
             return
 
-        targetlist = TargetList(name=listname)
+        targetlist = models.TargetList(name=listname)
         targetlist.save()
 
         for target in targets:
