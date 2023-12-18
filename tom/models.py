@@ -1,5 +1,7 @@
+from datetime import datetime
+from astropy.coordinates import SkyCoord
+import astropy.units as u
 from django.db import models
-
 
 
 class Person(models.Model):
@@ -32,6 +34,16 @@ class Target(models.Model):
     def __str__(self):
         return self.local_id
 
+    def isCloseTo(self, coord: SkyCoord) -> bool:
+        coord = SkyCoord(
+            ra=self.ra * u.deg,
+            dec=self.dec * u.deg,
+            pm_ra_cosdec=self.pmra * u.mas / u.yr,
+            pm_dec=self.pmdec * u.mas / u.yr,
+            frame="icrs",
+        )
+        return coord.separation(coord) < 10 * u.arcsec
+
 
 class TargetIdentifier(models.Model):
     target = models.ForeignKey(Target, on_delete=models.CASCADE)
@@ -50,6 +62,7 @@ class ScienceTarget(Target):
 class TargetList(models.Model):
     name = models.CharField(max_length=200, unique=True)
     created = models.DateTimeField(auto_now_add=True)
+    description = models.CharField(max_length=400)
     targets = models.ManyToManyField(Target)
 
     def __str__(self):
@@ -75,17 +88,29 @@ class ObservationPurpose(models.Model):
 class ObservingProgram(models.Model):
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
+    def unknownProgram() -> str:
+        return "Unknown"
+
 
 class ObservingSession(models.Model):
     observing_program = models.ForeignKey(ObservingProgram, on_delete=models.CASCADE)
     observatory = models.ForeignKey(Observatory, on_delete=models.CASCADE)
     utc_date = models.DateField()
-    equipment = models.CharField(max_length=100)
+    equipment = models.CharField(
+        max_length=200,
+        help_text=f"Format: <telescope>+<instrument>",
+    )
     purpose = models.ForeignKey(ObservationPurpose, on_delete=models.CASCADE)
     observers = models.ManyToManyField(Person)
 
     def __str__(self):
         return f"{self.purpose} of {self.target} on {self.utc_date} @ {self.observatory.nickname} "
+
+    def makeEquipmentString(telescope: str, instrument: str) -> str:
+        return f"{telescope}+{instrument}"
 
 
 class RawData(models.Model):
@@ -107,7 +132,7 @@ class SpeckleRawData(RawData):
 
 
 class SpectrumRawData(RawData):
-    jd_btd = models.CharField(max_length=30, default="")
+    datetime_utc = models.DateTimeField(default=datetime.fromisoformat("1970-01-01"))
     fiber = models.CharField(max_length=20, default="")
     cross_disperser = models.CharField(max_length=100, default="")
     arm = models.CharField(max_length=30, default="")
