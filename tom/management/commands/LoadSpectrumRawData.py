@@ -10,7 +10,7 @@ class Command(BaseCommand):
     help = "Walks through pepsi*.fits files and creates SpectrumRawData entries from them"
 
     def add_arguments(self, parser):
-        parser.add_argument("dir", type=str, help="Directory to find fits files")
+        parser.add_argument("dir", type=str, required=True, help="Directory to find fits files")
 
     def handle(self, *_, **options):
 
