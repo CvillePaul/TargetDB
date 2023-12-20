@@ -32,7 +32,7 @@ class Command(BaseCommand):
                 return
             srd.target = target
             # now gather data for the observing session
-            date = datetime.fromisoformat(f"{hdr["DATE-OBS"]}")
+            date = datetime.fromisoformat(f"{hdr["DATE-OBS"]}T{hdr["TIME-OBS"]}Z")
             observatory = models.Observatory.objects.get(nickname=hdr["TELESCOP"])
             equipment = models.ObservingSession.makeEquipmentString(hdr["TELESCOP"], hdr["INSTRUME"])
             try:
@@ -43,7 +43,7 @@ class Command(BaseCommand):
                     observing_program=observing_program,
                     observatory=observatory,
                     equipment=equipment,
-                    utc_date=date,
+                    utc_date=date.date,
                     purpose=models.ObservationPurpose.objects.get(purpose="Spectroscopy"),
                 )
                 observing_session.save()

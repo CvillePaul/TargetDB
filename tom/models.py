@@ -96,7 +96,7 @@ class ObservingProgram(models.Model):
 
 
 class ObservingSession(models.Model):
-    observing_program = models.ForeignKey(ObservingProgram, on_delete=models.CASCADE)
+    observingprogram = models.ForeignKey(ObservingProgram, on_delete=models.CASCADE)
     observatory = models.ForeignKey(Observatory, on_delete=models.CASCADE)
     utc_date = models.DateField()
     equipment = models.CharField(
@@ -115,7 +115,8 @@ class ObservingSession(models.Model):
 
 class RawData(models.Model):
     target = models.ForeignKey(Target, on_delete=models.CASCADE)
-    observing_session = models.ForeignKey(ObservingSession, on_delete=models.CASCADE)
+    observingsession = models.ForeignKey(ObservingSession, on_delete=models.CASCADE)
+    datetime_utc = models.DateTimeField(default=datetime.fromisoformat("1970-01-01"))
     uri = models.CharField(max_length=200)
 
     def __str__(self):
@@ -129,10 +130,10 @@ class SpeckleRawData(RawData):
     gain = models.PositiveIntegerField(default=0)
     exposure_time_ms = models.PositiveIntegerField(default=0)
     num_sequences = models.PositiveIntegerField(default=0)
+    channels = models.CharField(max_length=100)
 
 
 class SpectrumRawData(RawData):
-    datetime_utc = models.DateTimeField(default=datetime.fromisoformat("1970-01-01"))
     fiber = models.CharField(max_length=20, default="")
     cross_disperser = models.CharField(max_length=100, default="")
     arm = models.CharField(max_length=30, default="")
