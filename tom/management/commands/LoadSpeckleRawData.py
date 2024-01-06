@@ -15,7 +15,6 @@ class Command(BaseCommand):
         "DateTimeUTC",
         "Gain",
         "Exposure Time",
-        "Num Sequences",
         "Channels",
     ]
 
@@ -63,7 +62,7 @@ class Command(BaseCommand):
                 )
             except:
                 observing_session = models.ObservingSession(
-                    observing_program=observing_program,
+                    observingprogram=observing_program,
                     observatory=observatory,
                     equipment=equipment,
                     utc_date=date.date().isoformat(),
@@ -75,9 +74,8 @@ class Command(BaseCommand):
             srd = models.SpeckleRawData()
             srd.target = target
             srd.datetime_utc = date
-            srd.observing_session = observing_session
+            srd.observingsession = observing_session
             # handle rest of the fields
-            srd.num_sequences = observation["Num Sequences"]
             srd.gain = observation["Gain"]
             srd.exposure_time_ms = observation["Exposure Time"]
             srd.channels = observation["Channels"]

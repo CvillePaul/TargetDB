@@ -1,2 +1,11 @@
 *.pyc
 db.sqlite3
+Data Files/ObservationPurposes.csv
+Data Files/Observatories.csv
+Data Files/ObservingPrograms.csv
+Data Files/ObservingSessions.csv
+Data Files/People.csv
+Data Files/SpeckleRawData.csv
+Data Files/TargetIdTypes.csv
+Data Files/TargetLists.csv
+Data Files/Targets.csv

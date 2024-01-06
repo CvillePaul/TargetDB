@@ -101,6 +101,7 @@ class Command(BaseCommand):
         target_list["RA2000"] = j2000_coords.ra
         target_list["Dec2000"] = j2000_coords.dec
 
+        gaia_id_type = models.TargetIdType.objects.get(id_type="Gaia DR2")
         #write to the database
         for row in target_list:
             match row["Target Type"]:
@@ -121,4 +122,7 @@ class Command(BaseCommand):
             target.distance=row["Distance"]
             target.magnitude=row["phot_g_mean_mag"]
             target.save()
+            target_identifier = models.TargetIdentifier(target=target, id_type=gaia_id_type, identifier=row["SOURCE_ID"])
+            target_identifier.save()
+
         self.stdout.write(self.style.SUCCESS(f"Wrote {len(target_list)} targets"))

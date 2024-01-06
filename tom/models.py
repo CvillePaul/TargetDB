@@ -129,8 +129,7 @@ class RawData(models.Model):
 class SpeckleRawData(RawData):
     gain = models.PositiveIntegerField(default=0)
     exposure_time_ms = models.PositiveIntegerField(default=0)
-    num_sequences = models.PositiveIntegerField(default=0)
-    channels = models.CharField(max_length=100)
+    channel = models.CharField(max_length=100)
 
 
 class SpectrumRawData(RawData):
