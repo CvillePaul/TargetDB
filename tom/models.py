@@ -51,12 +51,13 @@ class TargetIdentifier(models.Model):
     identifier = models.CharField(max_length=100)
 
 
-class CalibrationTarget(Target):
+class ScienceTarget(Target):
     ...
 
 
-class ScienceTarget(Target):
-    calibrations = models.ManyToManyField(CalibrationTarget)
+# class CalibrationTarget(Target):
+#     sciencetarget = models.ForeignKey(ScienceTarget, on_delete=models.CASCADE)
+#     calibration_type = models.CharField(max_length=100, default="")
 
 
 class TargetList(models.Model):

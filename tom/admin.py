@@ -6,14 +6,14 @@ class TargetInline(admin.TabularInline):
     model = Target
     extra = 0
 
-class ScienceTargetInline(admin.TabularInline):
-    model = ScienceTarget
-    extra = 0
+# class ScienceTargetInline(admin.TabularInline):
+#     model = ScienceTarget
+#     extra = 0
 
 
-class CalibrationTargetInline(admin.TabularInline):
-    model = CalibrationTarget  # ScienceTarget.calibrations.through
-    extra = 0
+# class CalibrationTargetInline(admin.TabularInline):
+#     model = CalibrationTarget  # ScienceTarget.calibrations.through
+#     extra = 0
 
 
 class ObservingSessionInline(admin.TabularInline):
@@ -51,12 +51,12 @@ class ScienceTargetAdmin(admin.ModelAdmin):
             },
         ),
     ]
-    inlines = [CalibrationTargetInline, ScienceResultInline]
+    # inlines = [CalibrationTargetInline, ScienceResultInline]
     list_filter = ["source"]
 
 
 admin.site.register(ScienceTarget, ScienceTargetAdmin)
-admin.site.register(CalibrationTarget)
+# admin.site.register(CalibrationTarget)
 
 class TargetListAdmin(admin.ModelAdmin):
     # inlines = [TargetInline]
@@ -79,9 +79,9 @@ admin.site.register(SpeckleRawData)
 admin.site.register(SpectrumRawData)
 
 
-class ScienceResultAdmin(admin.ModelAdmin):
-    inlines = [ScienceTargetInline]
-    extra = 0
+# class ScienceResultAdmin(admin.ModelAdmin):
+#     inlines = [ScienceTargetInline]
+#     extra = 0
 
 
 admin.site.register(ScienceResult)
