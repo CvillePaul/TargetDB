@@ -55,7 +55,7 @@ class Command(BaseCommand):
             equipment = observation["Equipment"]
             try:
                 observing_session = models.ObservingSession.objects.get(
-                    observing_program=observing_program,
+                    observingprogram=observing_program,
                     observatory=observatory,
                     equipment=equipment,
                     utc_date=date.date().isoformat(),
@@ -82,6 +82,6 @@ class Command(BaseCommand):
             srd.save()
             self.stdout.write(
                 self.style.SUCCESS(
-                    f"{target.local_id} at {srd.datetime_utc} on {srd.channels} ({srd.num_sequences}x{srd.gain})"
+                    f"{target.local_id} at {srd.datetime_utc} on {srd.channels} gain {srd.gain})"
                 )
             )
