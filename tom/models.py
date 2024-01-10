@@ -44,6 +44,11 @@ class Target(models.Model):
         )
         return coord.separation(coord) < 10 * u.arcsec
 
+    def getByIdentifier(identifier_type: str, identifier: str):
+        # target_identifier = TargetIdType.objects.get(id_type=identifier_type)
+        # return Target.objects.get(...)
+        pass  # TODO: finish this
+
 
 class TargetIdentifier(models.Model):
     target = models.ForeignKey(Target, on_delete=models.CASCADE)
