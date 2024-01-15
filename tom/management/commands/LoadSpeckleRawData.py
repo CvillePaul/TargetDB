@@ -80,8 +80,11 @@ class Command(BaseCommand):
             srd.exposure_time_ms = observation["Exposure Time"]
             srd.channels = observation["Channels"]
             srd.save()
-            self.stdout.write(
-                self.style.SUCCESS(
-                    f"{target.local_id} at {srd.datetime_utc} on {srd.channels} gain {srd.gain})"
-                )
-            )
+            # self.stdout.write(
+            #     self.style.SUCCESS(
+            #         f"{target.local_id} at {srd.datetime_utc} on {srd.channels} gain {srd.gain}"
+            #     )
+            # )
+        self.stdout.write(
+            self.style.SUCCESS(f"Added {len(observations)} speckle entries")
+        )

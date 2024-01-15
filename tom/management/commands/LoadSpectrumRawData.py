@@ -95,5 +95,5 @@ class Command(BaseCommand):
                 #     )
                 # )
             self.stdout.write(
-                self.style.SUCCESS(f"Added {len(observations)} entries from {file}")
+                self.style.SUCCESS(f"Added {len(observations)} spectrum entries from {file}")
             )

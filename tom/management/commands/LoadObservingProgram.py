@@ -12,7 +12,6 @@ class Command(BaseCommand):
 
     def handle(self, *_, **options):
         table = Table.read(options["file"], format="ascii.csv")
-        print(table.colnames)
         # verify we have all the necessary fields
         if not set(table.colnames).issuperset(set(self.required_fields)):
             self.stderr.write(

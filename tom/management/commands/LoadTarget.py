@@ -80,7 +80,7 @@ class Command(BaseCommand):
         )
 
         # define a distance column based on gaia parallax
-        target_list["Distance"] = 1 / np.abs(target_list["PARALLAX"]) * u.parsec * u.mas
+        target_list["Distance"] = u.mas / np.abs(target_list["PARALLAX"]) * 1000 # convert from kiloparsecs to parsecs
 
         # make a SkyCoord object for the RA/DEC of all the objects.
         # the SkyCoord object handles proper motion nicely, so PMRA and PMDEC are in there too

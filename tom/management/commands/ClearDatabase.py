@@ -18,7 +18,7 @@ class Command(BaseCommand):
         models.Observatory.objects.all().delete()
         models.TargetList.objects.all().delete()
         models.ScienceTarget.objects.all().delete()
-        models.CalibrationTarget.objects.all().delete()
+        # models.CalibrationTarget.objects.all().delete()
         models.TargetIdentifier.objects.all().delete()
         models.Target.objects.all().delete()
         models.TargetIdType.objects.all().delete()

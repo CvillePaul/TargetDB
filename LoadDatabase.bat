@@ -1,10 +1,10 @@
 python .\manage.py ClearDatabase
 
-python .\manage.py MakeSpectrumRawDataCsv "..\..\Files\202305\*.nor" "Data Files\SpectrumRawData\LBT Spectra 2023-05" QuadEB
-python .\manage.py MakeSpectrumRawDataCsv "..\..\Files\202306\*.nor" "Data Files\SpectrumRawData\LBT Spectra 2023-06" QuadEB
-python .\manage.py MakeSpectrumRawDataCsv "..\..\Files\202309\*.bwl" "Data Files\SpectrumRawData\LBT Spectra 2023-09" QuadEB
-python .\manage.py MakeSpectrumRawDataCsv "..\..\Files\202310\*.bwl" "Data Files\SpectrumRawData\LBT Spectra 2023-10" QuadEB
-python .\manage.py MakeSpectrumRawDataCsv "..\..\Files\202312\*.bwl" "Data Files\SpectrumRawData\LBT Spectra 2023-12" QuadEB
+@rem python .\manage.py MakeSpectrumRawDataCsv "..\..\Files\202305\*.nor" "Data Files\SpectrumRawData\LBT Spectra 2023-05" QuadEB
+@rem python .\manage.py MakeSpectrumRawDataCsv "..\..\Files\202306\*.nor" "Data Files\SpectrumRawData\LBT Spectra 2023-06" QuadEB
+@rem python .\manage.py MakeSpectrumRawDataCsv "..\..\Files\202309\*.bwl" "Data Files\SpectrumRawData\LBT Spectra 2023-09" QuadEB
+@rem python .\manage.py MakeSpectrumRawDataCsv "..\..\Files\202310\*.bwl" "Data Files\SpectrumRawData\LBT Spectra 2023-10" QuadEB
+@rem python .\manage.py MakeSpectrumRawDataCsv "..\..\Files\202312\*.bwl" "Data Files\SpectrumRawData\LBT Spectra 2023-12" QuadEB
 
 python .\manage.py LoadPerson             "Data Files\People.csv"
 python .\manage.py LoadTargetIdType       "Data Files\TargetIdTypes.csv"
