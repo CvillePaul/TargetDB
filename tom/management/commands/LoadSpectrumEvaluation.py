@@ -41,34 +41,30 @@ class Command(BaseCommand):
                         self.style.ERROR(f"Target ID: {target_id} not found")
                     )
                     return
-                #find the referenced SpectrumRawData object
+                # find the referenced SpectrumRawData object
                 date = datetime.fromisoformat(evaluation["Datetime_utc"]).astimezone(
                     timezone.utc
                 )
                 try:
-                    spectrum = models.SpectrumRawData.objects.get(target_id=target.id, datetime_utc=date)
+                    spectrum = models.SpectrumRawData.objects.get(
+                        target_id=target.id, datetime_utc=date
+                    )
                 except:
-                    self.stderr.write(self.style.ERROR(f"Cannot find spectrum with target id {target.id} and datetime {date}"))
+                    self.stderr.write(
+                        self.style.ERROR(
+                            f"Cannot find spectrum with target id {target.local_id} and datetime {date}"
+                        )
+                    )
                     return
-                se = models.SpectrumEvaluation(spectrum=spectrum, quality=evaluation["Rating"])
-                srd = models.SpectrumRawData()
-                srd.target = target
-                srd.datetime_utc = date
-                srd.observingsession = observing_session
-                # handle rest of the fields
-                srd.fiber = evaluation["Fiber"]
-                srd.arm = evaluation["Arm"]
-                srd.cross_disperser = evaluation["Cross Disperser"]
-                srd.exposure_time = evaluation["Exposure Time"]
-                srd.uri = evaluation["File"]
-                srd.save()
-                # self.stdout.write(
-                #     self.style.SUCCESS(
-                #         f"{target.local_id} at {srd.datetime_utc} on {srd.cross_disperser}"
-                #     )
-                # )
+                se = models.SpectrumEvaluation(
+                    target=target,
+                    spectrum=spectrum,
+                    quality=float(evaluation["Rating"]),
+                    comment="",
+                )
+                se.save()
             self.stdout.write(
                 self.style.SUCCESS(
-                    f"Added {len(evaluations)} spectrum entries from {file}"
+                    f"Added {len(evaluations)} spectrum evaluations from {file}"
                 )
             )
