@@ -155,9 +155,29 @@ class SpectrumRawData(RawData):
 
 class ScienceResult(models.Model):
     target = models.ForeignKey(Target, on_delete=models.CASCADE)
-    type = models.CharField(max_length=30)
+    type = models.CharField(max_length=100)
     author = models.CharField(max_length=200, default="")
     uri = models.CharField(max_length=200)
 
     def __str__(self):
         return self.uri
+
+
+class SpectrumEvaluation(ScienceResult):
+    spectrum = models.ForeignKey(SpectrumRawData, on_delete=models.CASCADE)
+    quality = models.FloatField(default=0, help_text="Scale of 5 with 5 highest")
+    comment = models.CharField(max_length=200, default="")
+
+
+class SpeckleResolution(ScienceResult):
+    speckle = models.ForeignKey(SpeckleRawData, on_delete=models.CASCADE)
+    coords = models.CharField(max_length=50, default="")
+    filename = models.CharField(max_length=50, default="")
+    epoch = models.FloatField(default=0)
+    chi_sq = models.FloatField(default=0)
+    seeing = models.FloatField(default=0)
+    position_angle = models.FloatField(default=0)
+    separation = models.FloatField(default=0)
+    delta_mag = models.FloatField(default=0)
+    filter = models.PositiveIntegerField(default=0)
+    notes = models.CharField(max_length=100, default="")
