@@ -1,7 +1,10 @@
 from datetime import datetime
 from astropy.coordinates import SkyCoord
+from astropy.time import Time
 import astropy.units as u
 from django.db import models
+from tom.generated_code.Tess_TICv8 import *
+from tom.generated_code.Gaia_DR3 import *
 
 
 class Person(models.Model):
@@ -34,15 +37,17 @@ class Target(models.Model):
     def __str__(self):
         return self.local_id
 
-    def isCloseTo(self, coord: SkyCoord) -> bool:
-        coord = SkyCoord(
+    def coord(self) -> SkyCoord:
+        return SkyCoord(
             ra=self.ra * u.deg,
             dec=self.dec * u.deg,
             pm_ra_cosdec=self.pmra * u.mas / u.yr,
             pm_dec=self.pmdec * u.mas / u.yr,
             frame="icrs",
         )
-        return coord.separation(coord) < 10 * u.arcsec
+
+    def isCloseTo(self, coord: SkyCoord, distance=10 * u.arcsec) -> bool:
+        return coord.separation(self.coord()) < distance
 
     def getByIdentifier(identifier_type: str, identifier: str):
         # target_identifier = TargetIdType.objects.get(id_type=identifier_type)
