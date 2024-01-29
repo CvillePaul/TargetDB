@@ -6,15 +6,6 @@ class TargetInline(admin.TabularInline):
     model = Target
     extra = 0
 
-# class ScienceTargetInline(admin.TabularInline):
-#     model = ScienceTarget
-#     extra = 0
-
-
-# class CalibrationTargetInline(admin.TabularInline):
-#     model = CalibrationTarget  # ScienceTarget.calibrations.through
-#     extra = 0
-
 
 class ObservingSessionInline(admin.TabularInline):
     model = ObservingSession
@@ -39,7 +30,7 @@ class ScienceResultInline(admin.TabularInline):
 admin.site.register(Person)
 
 
-class ScienceTargetAdmin(admin.ModelAdmin):
+class TargetAdmin(admin.ModelAdmin):
     fieldsets = [
         ("IDs", {"fields": ["local_id"]}),
         (None, {"fields": ["source", "magnitude"]}),
@@ -54,9 +45,6 @@ class ScienceTargetAdmin(admin.ModelAdmin):
     # inlines = [CalibrationTargetInline, ScienceResultInline]
     list_filter = ["source"]
 
-
-admin.site.register(ScienceTarget, ScienceTargetAdmin)
-# admin.site.register(CalibrationTarget)
 
 class TargetListAdmin(admin.ModelAdmin):
     # inlines = [TargetInline]

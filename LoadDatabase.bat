@@ -9,6 +9,8 @@ python .\manage.py ClearDatabase
 python .\manage.py LoadPerson             "Data Files\People.csv"
 python .\manage.py LoadTargetIdType       "Data Files\TargetIdTypes.csv"
 python .\manage.py LoadTarget             "Data Files\Targets.csv"
+python .\manage.py LoadCatalogAssociation "Data Files\CatalogAssociations\*.csv"
+python .\manage.py LoadCatalogData
 python .\manage.py LoadTargetList         "Data Files\Target Lists\*.csv"
 python .\manage.py LoadObservatory        "Data Files\Observatories.csv"
 python .\manage.py LoadObservingProgram   "Data Files\ObservingPrograms.csv"

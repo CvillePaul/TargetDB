@@ -4,6 +4,7 @@ from astropy.time import Time
 import astropy.units as u
 from django.db import models
 from tom.generated_code.Tess_TICv8 import *
+from tom.generated_code.Gaia_DR2 import *
 from tom.generated_code.Gaia_DR3 import *
 
 
@@ -24,50 +25,53 @@ class TargetIdType(models.Model):
 
 class Target(models.Model):
     local_id = models.CharField(max_length=100, unique=True)
+    target_type = models.CharField(max_length=100, default="")
     source = models.CharField(
         max_length=100, help_text="How target was identified/discovered", blank=True
     )
-    ra = models.FloatField(verbose_name="RA (deg)")
-    dec = models.FloatField(verbose_name="Dec (deg)")
-    pmra = models.FloatField(verbose_name="PM RA (mas/yr)", default=0)
-    pmdec = models.FloatField(verbose_name="PM Dec (mas/yr)", default=0)
-    distance = models.FloatField(verbose_name="Distance (pc)", default=0)
-    magnitude = models.FloatField()
+    # ra = models.FloatField(verbose_name="RA (deg)")
+    # dec = models.FloatField(verbose_name="Dec (deg)")
+    # pmra = models.FloatField(verbose_name="PM RA (mas/yr)", default=0)
+    # pmdec = models.FloatField(verbose_name="PM Dec (mas/yr)", default=0)
+    # distance = models.FloatField(verbose_name="Distance (pc)", default=0)
+    # magnitude = models.FloatField()
 
     def __str__(self):
         return self.local_id
 
-    def coord(self) -> SkyCoord:
-        return SkyCoord(
-            ra=self.ra * u.deg,
-            dec=self.dec * u.deg,
-            pm_ra_cosdec=self.pmra * u.mas / u.yr,
-            pm_dec=self.pmdec * u.mas / u.yr,
-            frame="icrs",
-        )
+    # def coord(self) -> SkyCoord:
+    #     return SkyCoord(
+    #         ra=self.ra * u.deg,
+    #         dec=self.dec * u.deg,
+    #         pm_ra_cosdec=self.pmra * u.mas / u.yr,
+    #         pm_dec=self.pmdec * u.mas / u.yr,
+    #         frame="icrs",
+    #     )
 
-    def isCloseTo(self, coord: SkyCoord, distance=10 * u.arcsec) -> bool:
-        return coord.separation(self.coord()) < distance
+    # def isCloseTo(self, coord: SkyCoord, distance=10 * u.arcsec) -> bool:
+    #     return coord.separation(self.coord()) < distance
 
-    def getByIdentifier(identifier_type: str, identifier: str):
-        # target_identifier = TargetIdType.objects.get(id_type=identifier_type)
-        # return Target.objects.get(...)
-        pass  # TODO: finish this
+    # def getByIdentifier(identifier_type: str, identifier: str):
+    #     # target_identifier = TargetIdType.objects.get(id_type=identifier_type)
+    #     # return Target.objects.get(...)
+    #     pass  # TODO: finish this
+
+
+class CatalogAssociation(models.Model):
+    target = models.ForeignKey(Target, on_delete=models.CASCADE)
+    catalog = models.CharField(max_length=100, help_text="Name of associated catalog")
+    catalog_id = models.CharField(
+        max_length=100, help_text="Identifier within associated catalog"
+    )
+    association = models.CharField(
+        max_length=100, help_text="Reason for association with catalog object"
+    )
 
 
 class TargetIdentifier(models.Model):
     target = models.ForeignKey(Target, on_delete=models.CASCADE)
     id_type = models.ForeignKey(TargetIdType, on_delete=models.CASCADE)
     identifier = models.CharField(max_length=100)
-
-
-class ScienceTarget(Target):
-    ...
-
-
-# class CalibrationTarget(Target):
-#     sciencetarget = models.ForeignKey(ScienceTarget, on_delete=models.CASCADE)
-#     calibration_type = models.CharField(max_length=100, default="")
 
 
 class TargetList(models.Model):
