@@ -190,3 +190,14 @@ class SpeckleResolution(ScienceResult):
     delta_mag = models.FloatField(default=0)
     filter = models.PositiveIntegerField(default=0)
     notes = models.CharField(max_length=100, default="")
+
+
+class BinaryParameters(ScienceResult):
+    member = models.CharField(max_length=50, help_text="Name of component, eg A or B")
+    period = models.FloatField(null=True, help_text="Period in days")
+    t0_primary = models.FloatField(null=True, help_text="Date in BJD")
+    t0_secondary = models.FloatField(null=True, help_text="Date in BJD")
+    duration_primary = models.FloatField(null=True, help_text="Duration in hours")
+    duration_secondary = models.FloatField(null=True, help_text="Duration in hours")
+    depth_primary = models.FloatField(null=True)
+    depth_secondary = models.FloatField(null=True)
