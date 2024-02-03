@@ -9,7 +9,7 @@ python .\manage.py ClearDatabase
 python .\manage.py LoadPerson             "Data Files\People.csv"
 python .\manage.py LoadTargetIdType       "Data Files\TargetIdTypes.csv"
 python .\manage.py LoadTarget             "Data Files\Targets.csv"
-python .\manage.py LoadCatalogAssociation "Data Files\CatalogAssociations\*.csv"
+python .\manage.py LoadCatalogAssociation "Data Files\Catalog Associations\*.csv"
 python .\manage.py LoadCatalogData
 python .\manage.py LoadTargetList         "Data Files\Target Lists\*.csv"
 python .\manage.py LoadObservatory        "Data Files\Observatories.csv"
@@ -17,4 +17,4 @@ python .\manage.py LoadObservingProgram   "Data Files\ObservingPrograms.csv"
 python .\manage.py LoadObservationPurpose "Data Files\ObservationPurposes.csv"
 python .\manage.py LoadSpectrumRawData    "Data Files\SpectrumRawData\LBT Spectra *.csv"
 python .\manage.py LoadSpeckleRawData     "Data Files\SpeckleRawData.csv"
-
+python .\manage.py LoadBinaryParameters   ".\Data Files\Binary Parameters\Kostov 2023 Binary Parameters.csv"

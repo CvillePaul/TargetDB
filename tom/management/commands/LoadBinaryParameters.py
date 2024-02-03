@@ -25,7 +25,17 @@ class Command(BaseCommand):
             num_created, num_updated = 0, 0
             for parameter in parameters:
                 # get the column(s) that make a row unique
-                target = models.Target.objects.get(local_id=f"TIC {parameter["Local ID"]}")
+                #assume these are all TIC IDs, if only a number prepend TIC to it
+                try:
+                    local_id = str(parameter["Local ID"])
+                    if not "TIC " in local_id:
+                        local_id = f"TIC {local_id}"
+                    target = models.Target.objects.get(local_id=local_id)
+                except Exception as e:
+                    self.stderr.write(
+                        self.style.ERROR(f"Cannot find target {local_id} from file {file}")
+                    )
+                    return
                 member = parameter["Member"]
                 vals = {
                     key.lower().replace(" ", "_"): val
