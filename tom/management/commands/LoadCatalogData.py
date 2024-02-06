@@ -24,6 +24,8 @@ class Command(BaseCommand):
                     self.load_gaia2_targets(objects)
                 case "GAIA DR3":
                     self.load_gaia3_targets(objects)
+                case "TESS/Goddard/VSG quadruple candidate (Kostov)":
+                    pass  # no online data available for these catalogs
                 case _:
                     self.stderr.write(self.style.ERROR(f"Unknown catalog: {catalog}"))
                     return
