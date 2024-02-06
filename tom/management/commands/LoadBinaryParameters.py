@@ -44,6 +44,11 @@ class Command(BaseCommand):
                 }
                 vals["type"] = "Binary Parameters"
                 vals["uri"] = os.path.basename(file)
+                #adjust the T0 values to BJD
+                if (t0_primary := vals.get("t0_primary")) != None:
+                    vals["t0_primary"] = t0_primary + 2457000
+                if (t0_secondary := vals.get("t0_secondary")) != None:
+                    vals["t0_secondary"] = t0_secondary + 2457000
                 #remove the unique columns retrieved above
                 del vals["local_id"]
                 del vals["member"]
