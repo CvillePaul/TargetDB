@@ -193,11 +193,11 @@ class SpeckleResolution(ScienceResult):
 
 
 class BinaryParameters(ScienceResult):
-    member = models.CharField(max_length=50, help_text="Name of component, eg A or B")
+    member = models.CharField(max_length=50, help_text="Name of component, eg A, B, C")
     period = models.FloatField(null=True, help_text="Period in days")
-    t0_primary = models.FloatField(null=True, help_text="Date in BJD")
-    t0_secondary = models.FloatField(null=True, help_text="Date in BJD")
-    duration_primary = models.FloatField(null=True, help_text="Duration in hours")
-    duration_secondary = models.FloatField(null=True, help_text="Duration in hours")
-    depth_primary = models.FloatField(null=True)
-    depth_secondary = models.FloatField(null=True)
+    t0_a = models.FloatField(null=True, help_text="Date in BJD")
+    t0_b = models.FloatField(null=True, help_text="Date in BJD")
+    duration_a = models.FloatField(null=True, help_text="Duration in hours")
+    duration_b = models.FloatField(null=True, help_text="Duration in hours")
+    depth_a = models.FloatField(null=True)
+    depth_b = models.FloatField(null=True)
