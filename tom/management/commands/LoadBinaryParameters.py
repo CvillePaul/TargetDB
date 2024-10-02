@@ -7,7 +7,7 @@ from tom import models
 
 class Command(BaseCommand):
     help = "Loads data such as period, duration, depth of binary components of a target"
-    required_fields = ["Local ID", "Member", "Period", "T0 Primary", "T0 Secondary", "Duration Primary", "Duration Secondary", "Depth Primary", "Depth Secondary"]
+    required_fields = ["Local ID", "Member", "Period", "T0", "Duration", "Depth"]
 
     def add_arguments(self, parser):
         parser.add_argument("file", type=str, help="Pattern for CSV file(s) to load")
@@ -25,40 +25,30 @@ class Command(BaseCommand):
             num_created, num_updated = 0, 0
             for parameter in parameters:
                 # get the column(s) that make a row unique
-                #assume these are all TIC IDs, if only a number prepend TIC to it
                 try:
-                    local_id = str(parameter["Local ID"])
-                    if not "TIC " in local_id:
-                        local_id = f"TIC {local_id}"
-                    target = models.Target.objects.get(local_id=local_id)
+                    name = str(parameter["Local ID"])
+                    target = models.Target.objects.get(name=name)
                 except Exception as e:
                     self.stderr.write(
-                        self.style.ERROR(f"Cannot find target {local_id} from file {file}")
+                        self.style.ERROR(f"Cannot find target {name} from file {file}")
                     )
                     return
-                member = parameter["Member"]
-                vals = {
-                    key.lower().replace(" ", "_"): val
-                    for key, val in zip(parameter.keys(), parameter.values())
-                    if val != "masked" and val != -999
-                }
-                vals["type"] = "Binary Parameters"
-                vals["uri"] = os.path.basename(file)
-                #adjust the T0 values to BJD
-                if (t0_primary := vals.get("t0_primary")) != None:
-                    vals["t0_primary"] = t0_primary + 2457000
-                if (t0_secondary := vals.get("t0_secondary")) != None:
-                    vals["t0_secondary"] = t0_secondary + 2457000
-
-                #remove the unique columns retrieved above
-                del vals["local_id"]
-                del vals["member"]
+                t0 = parameter["T0"] + 2457000 # adjust to BJD
+                period = parameter["Period"] / 3600 # convert from hours to seconds
+                if (duration := parameter.get("Duration")) is None:
+                    duration = 0 # default value
+                if (depth := parameter.get("Depth")) is None:
+                    depth = 0 # default value
 
                 #load into the database
                 _, created = models.BinaryParameters.objects.update_or_create(
                     target=target,
-                    member=member,
-                    defaults=vals,
+                    system=parameter["System"],
+                    member=parameter["Member"],
+                    t0=t0,
+                    period=period,
+                    duration=duration,
+                    depth=depth,
                 )
                 if created:
                     num_created += 1

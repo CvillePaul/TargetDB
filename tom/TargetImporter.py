@@ -30,7 +30,7 @@ class TargetImporter:
 
         for row in tic_targets:
             t = ScienceTarget(
-                local_id = "TIC " + row["TIC ID"],
+                name = "TIC " + row["TIC ID"],
                 source = row["Source"],
                 ra = row["RA"].value,
                 dec = row["Dec"].value,

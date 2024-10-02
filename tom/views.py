@@ -21,7 +21,7 @@ def TargetView(request, pk):
     # observations = target.observation_set.all()
     # scienceresults = target.scienceresult_set.all()
     # specklerawdata = SpeckleRawData.objects.filter(
-    #     observation__target__local_id=target.local_id
+    #     observation__target__name=target.name
     # )
     context = {
         "target": target,

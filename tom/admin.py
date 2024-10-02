@@ -32,7 +32,7 @@ admin.site.register(Person)
 
 class TargetAdmin(admin.ModelAdmin):
     fieldsets = [
-        ("IDs", {"fields": ["local_id"]}),
+        ("IDs", {"fields": ["name"]}),
         (None, {"fields": ["source", "magnitude"]}),
         (
             "Coordinates (J2000)",

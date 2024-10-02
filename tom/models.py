@@ -24,8 +24,8 @@ class TargetIdType(models.Model):
 
 
 class Target(models.Model):
-    local_id = models.CharField(max_length=100, unique=True)
-    target_type = models.CharField(max_length=100, default="")
+    name = models.CharField(max_length=100, unique=True)
+    type = models.CharField(max_length=100, default="")
     source = models.CharField(
         max_length=100, help_text="How target was identified/discovered", blank=True
     )
@@ -37,7 +37,7 @@ class Target(models.Model):
     # magnitude = models.FloatField()
 
     def __str__(self):
-        return self.local_id
+        return self.name.value
 
     # def coord(self) -> SkyCoord:
     #     return SkyCoord(
@@ -193,11 +193,9 @@ class SpeckleResolution(ScienceResult):
 
 
 class BinaryParameters(ScienceResult):
-    member = models.CharField(max_length=50, help_text="Name of component, eg A, B, C")
+    system = models.CharField(max_length=50, help_text="Name of system, eg A, B, C")
+    member = models.CharField(max_length=50, help_text="Name of component of system, eg a, b, c")
     period = models.FloatField(null=True, help_text="Period in days")
-    t0_a = models.FloatField(null=True, help_text="Date in BJD")
-    t0_b = models.FloatField(null=True, help_text="Date in BJD")
-    duration_a = models.FloatField(null=True, help_text="Duration in hours")
-    duration_b = models.FloatField(null=True, help_text="Duration in hours")
-    depth_a = models.FloatField(null=True)
-    depth_b = models.FloatField(null=True)
+    t0 = models.FloatField(null=True, help_text="Date in BJD")
+    duration = models.FloatField(null=True, help_text="Duration in hours")
+    depth = models.FloatField(null=True)
