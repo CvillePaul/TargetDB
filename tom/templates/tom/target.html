@@ -1,11 +1,11 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'tom/style.css' %}">
 
-<title>{{ target.local_id }}</title>
+<title>{{ target.name }}</title>
 
 <body style="background-color:powderblue;">
 <br>
-<h1>{{ target.local_id }}</h1><br>
+<h1>{{ target.name }}</h1><br>
 TIC ID = {{ target.tic_id }} <br>
 GAIA ID = {{ target.gaia_id }} <br>
 Magnitude = {{ target.magnitude }} <br>

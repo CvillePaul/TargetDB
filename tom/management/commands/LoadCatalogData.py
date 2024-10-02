@@ -24,7 +24,7 @@ class Command(BaseCommand):
                     self.load_gaia2_targets(objects)
                 case "GAIA DR3":
                     self.load_gaia3_targets(objects)
-                case "TESS/Goddard/VSG quadruple candidate (Kostov)":
+                case "TESS/Goddard/VSG quadruple candidate (Kostov)" | "White Dwarf Binary":
                     pass  # no online data available for these catalogs
                 case _:
                     self.stderr.write(self.style.ERROR(f"Unknown catalog: {catalog}"))
@@ -79,7 +79,7 @@ class Command(BaseCommand):
                 for key, val in zip(gaia_object.keys(), gaia_object.values())
                 if val != "masked"
             }
-            identifier = vals.pop("source_id")
+            identifier = vals.pop("SOURCE_ID")
             _, created = models.Gaia_DR2.objects.update_or_create(
                 defaults=vals, source_id=identifier
             )
@@ -98,7 +98,6 @@ class Command(BaseCommand):
         # hit the MAST database
         # GAIA fields: https://gea.esac.esa.int/archive/documentation/GDR3/Gaia_archive/chap_datamodel/sec_dm_main_source_catalogue/ssec_dm_gaia_source.html
         gaia_table = self.load_gaia_targets("gaiadr3.gaia_source", objects)
-
         num_created, num_updated = 0, 0
         for gaia_object in gaia_table:
             vals = {
@@ -106,7 +105,7 @@ class Command(BaseCommand):
                 for key, val in zip(gaia_object.keys(), gaia_object.values())
                 if val != "masked"
             }
-            identifier = vals.pop("source_id")
+            identifier = vals.pop("SOURCE_ID")
             _, created = models.Gaia_DR3.objects.update_or_create(
                 defaults=vals, source_id=identifier
             )

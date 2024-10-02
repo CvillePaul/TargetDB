@@ -42,7 +42,7 @@ class Command(BaseCommand):
                 # first, check that we know the target
                 target_id = observation["Target"]
                 try:
-                    target = models.Target.objects.get(local_id=target_id)
+                    target = models.Target.objects.get(name=target_id)
                 except:
                     self.stderr.write(
                         self.style.ERROR(f"Target ID: {target_id} not found")
@@ -91,7 +91,7 @@ class Command(BaseCommand):
                 srd.save()
                 # self.stdout.write(
                 #     self.style.SUCCESS(
-                #         f"{target.local_id} at {srd.datetime_utc} on {srd.cross_disperser}"
+                #         f"{target.name} at {srd.datetime_utc} on {srd.cross_disperser}"
                 #     )
                 # )
             self.stdout.write(

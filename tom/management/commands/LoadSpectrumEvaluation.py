@@ -35,7 +35,7 @@ class Command(BaseCommand):
                 # first, check that we know the target
                 target_id = evaluation["Target"]
                 try:
-                    target = models.Target.objects.get(local_id=target_id)
+                    target = models.Target.objects.get(name=target_id)
                 except:
                     self.stderr.write(
                         self.style.ERROR(f"Target ID: {target_id} not found")
@@ -52,7 +52,7 @@ class Command(BaseCommand):
                 except:
                     self.stderr.write(
                         self.style.ERROR(
-                            f"Cannot find spectrum with target id {target.local_id} and datetime {date}"
+                            f"Cannot find spectrum with target id {target.name} and datetime {date}"
                         )
                     )
                     return

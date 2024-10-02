@@ -23,8 +23,8 @@ class Command(BaseCommand):
             num_created, num_updated = 0, 0
             for row in target_list:
                 _, created = models.Target.objects.update_or_create(
-                    local_id=row["Local ID"],
-                    target_type=row["Target Type"],
+                    name=row["Local ID"],
+                    type=row["Target Type"],
                     source=row["Source"],
                 )
                 if created:

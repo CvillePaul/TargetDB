@@ -24,7 +24,7 @@ class Command(BaseCommand):
 
             num_created, num_updated = 0, 0
             for association in associations:
-                target = models.Target.objects.get(local_id=association["Local ID"])
+                target = models.Target.objects.get(name=association["Local ID"])
                 _, created = models.CatalogAssociation.objects.update_or_create(
                     target=target,
                     catalog=association["Catalog"],

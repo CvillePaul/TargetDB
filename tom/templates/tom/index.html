@@ -6,7 +6,7 @@
 Available Targets:
     <ul>
     {% for target in target_list %}
-        <li><a href="{% url 'tom:target' target.id %}">{{ target.local_id }}</a></li>
+        <li><a href="{% url 'tom:target' target.id %}">{{ target.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

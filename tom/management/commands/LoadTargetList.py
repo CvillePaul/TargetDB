@@ -14,17 +14,17 @@ class Command(BaseCommand):
             file = open(filename, "r")
             listname = file.readline().rstrip()  # kill EOL chars
             description = file.readline().rstrip()
-            local_ids = file.readlines()  # TODO: should use id type/id pair here and below
+            names = file.readlines()  # TODO: should use id type/id pair here and below
 
             targets = []
             errors = 0
-            for local_id in local_ids:
+            for name in names:
                 try:
-                    targets.append(models.Target.objects.get(local_id=local_id.strip()))
+                    targets.append(models.Target.objects.get(name=name.strip()))
                 except:
                     self.stderr.write(
                         self.style.ERROR(
-                            f"Cannot locate target {local_id}, {len(local_id)}"
+                            f"Cannot locate target {name}, {len(name)}"
                         )
                     )
                     errors += 1
